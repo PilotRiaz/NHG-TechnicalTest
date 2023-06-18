@@ -1,6 +1,4 @@
-﻿using NUnit.Framework;
-using System;
-using TechTalk.SpecFlow;
+﻿using TechTalk.SpecFlow;
 
 namespace TechnicalTest
 {
@@ -16,13 +14,13 @@ namespace TechnicalTest
         [Given(@"I make a request to get location information (.*),(.*)")]
         public void GivenIMakeARequestToGetLocationInformation(string countryCode, string postCode)
         {
-            
+            _locationClient.GetLocationInformation(countryCode, postCode);
         }
-        
-        [Then(@"I verify the request status (.*)")]
-        public void ThenTheRequestShouldBeSuccessful(string isSuccessful)
-        {           
 
+        [Then(@"I verify the request status (.*)")]
+        public void ThenTheRequestShouldBeSuccessful(bool isSuccessful)
+        {            
+            _locationClient.VerifyRequestStatus(isSuccessful);            
         }
     }
 }

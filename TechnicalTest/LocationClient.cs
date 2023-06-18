@@ -1,33 +1,31 @@
-﻿using Microsoft.Extensions.Configuration;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using RestSharp;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using TechnicalTest.Service;
 
 namespace TechnicalTest
 {
     public class LocationClient
     {
-        private readonly RestService _resrService;
+        private readonly RestService _restService;
         private readonly ConfigurationProvider _configurationProvider;
         private RestResponse Response;
 
         public LocationClient(RestService restService, ConfigurationProvider configurationProvider)
         {
-            _resrService = restService;
-            _configurationProvider = configurationProvider;
+            _restService = restService;
+            _configurationProvider = configurationProvider;            
         }
 
         public void GetLocationInformation(string countryCode, string postCode)
         {
             var url = _configurationProvider.GetUrl();
+            url =  string.Format(url, countryCode, postCode);
+            Response =_restService.Get(url);
         }
 
-        public void VerifyRequestStatus(string isSuccessful)
+        public void VerifyRequestStatus(bool isSuccesful)
         {
-
+            Assert.AreEqual(isSuccesful, Response.IsSuccessStatusCode);                        
         }
     }
 }
